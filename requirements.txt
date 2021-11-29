@@ -1,4 +1,4 @@
-cstreamlit
+streamlit
 numpy
 opencv-python
 streamlit_drawable_canvas 
