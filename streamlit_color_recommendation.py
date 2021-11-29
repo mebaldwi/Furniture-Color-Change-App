@@ -475,6 +475,7 @@ if uploaded_img is not None:
             if known_variables <1:
                 st.write('You have to select a color.')
                 check2=False
+                new_color = (1,0)
             elif known_variables == 1:
                 #store new color
                 st.write("Check the box below to change color")
@@ -482,17 +483,22 @@ if uploaded_img is not None:
                     new_color=f"{color1}"
                     new_color=hex_to_rgb(new_color)
                     #new_color=np.append(new_color,'255')
-                    new_color=tuple(new_color)                    
+                    new_color=tuple(new_color)
                 elif option_11:
                     new_color=f"{color2}"
                     new_color=hex_to_rgb(new_color)
                     #new_color=np.append(new_color,'255')
                     new_color=tuple(new_color)
+                else:
+                    new_color = (1,0)
             else:
                 st.write('Only select 1 color.')
                 check2=False
-            
-        check2=st.checkbox("Check this Box to change colors.")
+
+        if len(new_color) == 3:
+            check2 = st.checkbox("Check this Box to change colors.")
+        else:
+            check2 = False
         if check2:
             
             #recolor image
