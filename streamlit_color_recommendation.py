@@ -355,6 +355,8 @@ if uploaded_img is not None:
     scaley=dimensions[0]/h
     if canvas_result.json_data["objects"]!=[]:
         check=st.checkbox("Push this button to continue")
+    else:
+        check = False
     if check:
         if canvas_result.json_data["objects"]==[]:
             st.write("Please choose an object in the image above")
