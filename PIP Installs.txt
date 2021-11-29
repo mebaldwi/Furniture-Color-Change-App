@@ -1,0 +1,16 @@
+pip install streamlit
+########################
+pip install streamlit-drawable-canvas
+########################
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade Pillow
+########################
+pip install opencv-python
+# If this does not work use the following and repeat above: pip install --upgrade pip setuptools wheel
+# If there are issues still, use the following: pip install opencv-python==4.2.0.34
+########################
+python -m pip install --user scipy
+########################
+pip install pandas
+########################
+pip install numpy
