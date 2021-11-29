@@ -1,6 +1,6 @@
-streamlit
+cstreamlit
 numpy
-cv2
+opencv-python
 streamlit_drawable_canvas 
 st_canvas
 PIL
