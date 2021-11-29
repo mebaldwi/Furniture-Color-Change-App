@@ -408,6 +408,11 @@ if uploaded_img is not None:
             dom_3=str(rgb_to_hex(dom_color[2]))
             dom_4=str(rgb_to_hex(dom_color[3]))
             dom_5=str(rgb_to_hex(dom_color[4]))
+            st.write(dom_1)
+            st.write(dom_2)
+            st.write(dom_3)
+            st.write(dom_4)
+            st.write(dom_5)
             col1, col2 ,col3, col4,col5= st.columns(5)
             with col1:
                  color1 = st.color_picker('Color 1','#'+dom_1,key=1)
