@@ -1,14 +1,7 @@
 streamlit
 numpy
 opencv-python
-streamlit_drawable_canvas 
-st_canvas
+streamlit_drawable_canvas
 PIL
-Image
-ImageColor
-scipy.cluster.vq 
-whiten
-scipy.cluster.vq 
-kmeans
 pandas
 colorsys
