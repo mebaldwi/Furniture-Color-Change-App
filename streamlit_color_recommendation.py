@@ -413,22 +413,27 @@ if uploaded_img is not None:
             dom_3.replace('-', '')
             dom_4.replace('-', '')
             dom_5.replace('-', '')
+            st.write('#'+dom_1)
+            st.write('#'+dom_2)
+            st.write('#'+dom_3)
+            st.write('#'+dom_4)
+            st.write('#'+dom_5)
 
             col1, col2 ,col3, col4,col5= st.columns(5)
             with col1:
-                 color1 = st.color_picker('Color 1','#'+dom_1,key=1)
+                 color1 = st.color_picker('Color 1','#'+dom_1)
                  st.write(f"{color1}")
             with col2:
-                 color2 = st.color_picker('Color 2','#'+dom_2,key=2)
+                 color2 = st.color_picker('Color 2','#'+dom_2)
                  st.write(f"{color2}")
             with col3:
-                 color3 = st.color_picker('Color 3','#'+dom_3,key=3)
+                 color3 = st.color_picker('Color 3','#'+dom_3)
                  st.write(f"{color3}")
             with col4:
-                 color4 = st.color_picker('Color 4','#'+dom_4,key=4)
+                 color4 = st.color_picker('Color 4','#'+dom_4)
                  st.write(f"{color4}")
             with col5:
-                 color5 = st.color_picker('Color 5','#'+dom_5,key=5)
+                 color5 = st.color_picker('Color 5','#'+dom_5)
                  st.write(f"{color5}")
                  
             #ask user to select 2 colors for recommendation
@@ -460,10 +465,10 @@ if uploaded_img is not None:
                 sug_colors=color_rec(new_colors)        
                 col1, col2= st.columns(2)
                 with col1:
-                    color1 = st.color_picker('Color 1','#'+str(sug_colors[0]).replace('-',''),key=10)
+                    color1 = st.color_picker('Color 1','#'+str(sug_colors[0]).replace('-',''))
                     st.write(f"{color1}")
                 with col2:
-                    color2 = st.color_picker('Color 2','#'+str(sug_colors[1]).replace('-',''),key=11)
+                    color2 = st.color_picker('Color 2','#'+str(sug_colors[1]).replace('-',''))
                     st.write(f"{color2}")
             #ask user to select the color to change
             st.write('Select the color you want to change the object to be:')
