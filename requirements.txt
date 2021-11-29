@@ -1,0 +1,14 @@
+streamlit
+numpy
+cv2
+streamlit_drawable_canvas 
+st_canvas
+PIL
+Image
+ImageColor
+scipy.cluster.vq 
+whiten
+scipy.cluster.vq 
+kmeans
+pandas
+colorsys
