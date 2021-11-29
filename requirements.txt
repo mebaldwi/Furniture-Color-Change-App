@@ -3,4 +3,5 @@ numpy
 opencv-python
 streamlit_drawable_canvas
 pillow
+scipy
 pandas
