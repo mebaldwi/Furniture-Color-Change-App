@@ -141,59 +141,58 @@ def color_id(image, clusters):
         ))
         
     return dominant_colors
-    
-def color_change(image,original,updated_color):   
-    #change to RGBA
-    picture=cv.cvtColor(original, cv.COLOR_RGB2RGBA)
-
-    #make new color into correct format
-    updated_color=np.asarray(updated_color)
-    updated_color=updated_color.tolist()
-
-    # Get the size of the image
-    dimensions = picture.shape
-
-    #process every pixel, add new color and make background original
 
 
-#process every pixel, add new color and make background original
-    for i in range(dimensions[0]):
-            for j in range(dimensions[1]):
-                current_color=image[i,j]
-                if current_color[0]==0 and current_color[1]==0 and current_color[2]==0 and current_color[3]==255:
-                    new_color=original[i,j]
-                    image[i,j]=(0,0,0,0)
-                else:
-                    new_color=updated_color
-                    new_color[3]=255
-                picture[i,j]=(new_color)
+def color_change(image, original, updated_color):
+    image = cv.cvtColor(image, cv.COLOR_RGBA2RGB)
+    original = cv.cvtColor(original, cv.COLOR_RGBA2RGB)
+    final = original.copy()
+    new_image = image.copy()
 
-    gray = cv.cvtColor(image,cv.COLOR_RGBA2GRAY)
-    gray = cv.merge((gray.copy(), gray.copy(), gray.copy(), gray.copy()))
+    new_image[np.where((image != [0, 0, 0]).all(axis=2))] = updated_color #shape issue
+    result = cv.addWeighted(new_image, 0.5, image, 0.3, 0)
 
-    #blend new with original for lighting
-    final=cv.addWeighted(picture,0.75,gray,0.25,50)
+    gray = cv.cvtColor(result, cv.COLOR_BGR2GRAY)
 
-
-    
-
-    ################
-    # def new_color_change(image, original, updated_color):
-    #     new_image = image.copy()
-    #     new_image[np.where((image != [0, 0, 0]).all(axis=2))] = updated_color
-    #     result = cv2.addWeighted(new_image, 0.5, image, 0.5, 0)
-    #
-    #     gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
-    #
-    #     arr = np.zeros((np.shape(original)))
-    #     print(np.shape(arr))
-    #     for row in range(np.shape(gray)[0]):
-    #         for col in range(np.shape(gray)[1]):
-    #             if gray[row][col] != 0:
-    #                 original[row][col][:] = result[row][col][:]
-    #     cv2.imshow('im', original)
+    arr = np.zeros((np.shape(final)))
+    #print(np.shape(arr))
+    for row in range(np.shape(gray)[0]):
+        for col in range(np.shape(gray)[1]):
+            if gray[row][col] != 0:
+                final[row][col][:] = result[row][col][:]
+    #cv2.imshow('im', original)
 
     return final
+#     #change to RGBA
+#     picture=cv.cvtColor(original, cv.COLOR_RGB2RGBA)
+#
+#     #make new color into correct format
+#     updated_color=np.asarray(updated_color)
+#     updated_color=updated_color.tolist()
+#
+#     # Get the size of the image
+#     dimensions = picture.shape
+#
+#     #process every pixel, add new color and make background original
+#
+#
+# #process every pixel, add new color and make background original
+#     for i in range(dimensions[0]):
+#             for j in range(dimensions[1]):
+#                 current_color=image[i,j]
+#                 if current_color[0]==0 and current_color[1]==0 and current_color[2]==0 and current_color[3]==255:
+#                     new_color=original[i,j]
+#                     image[i,j]=(0,0,0,0)
+#                 else:
+#                     new_color=updated_color
+#                     new_color[3]=255
+#                 picture[i,j]=(new_color)
+#
+#     gray = cv.cvtColor(image,cv.COLOR_RGBA2GRAY)
+#     gray = cv.merge((gray.copy(), gray.copy(), gray.copy(), gray.copy()))
+#
+#     #blend new with original for lighting
+#     final=cv.addWeighted(picture,0.75,gray,0.25,50)
 
 
     
@@ -354,8 +353,8 @@ if uploaded_img is not None:
     #define scale
     scalex=dimensions[1]/w
     scaley=dimensions[0]/h
-    
-    check=st.checkbox("Push this button to continue")
+    if canvas_result.json_data["objects"]!=[]:
+        check=st.checkbox("Push this button to continue")
     if check:
         if canvas_result.json_data["objects"]==[]:
             st.write("Please choose an object in the image above")
@@ -388,7 +387,7 @@ if uploaded_img is not None:
         check1=st.radio("What would you like to do next?",('Pick my own color','Color Recommendation'))
         if check1=='Pick my own color':
             color=st.color_picker('Pick A Color','#00f900')
-            new_color=ImageColor.getcolor(color, "RGBA")
+            new_color=ImageColor.getcolor(color, "RGB")
         
         #color recommendation
         if check1=='Color Recommendation':
@@ -480,12 +479,12 @@ if uploaded_img is not None:
                 if option_10:
                     new_color=f"{color1}"
                     new_color=hex_to_rgb(new_color)
-                    new_color=np.append(new_color,'255')
+                    #new_color=np.append(new_color,'255')
                     new_color=tuple(new_color)                    
                 elif option_11:
                     new_color=f"{color2}"
                     new_color=hex_to_rgb(new_color)
-                    new_color=np.append(new_color,'255')
+                    #new_color=np.append(new_color,'255')
                     new_color=tuple(new_color)
             else:
                 st.write('Only select 1 color.')
