@@ -413,11 +413,6 @@ if uploaded_img is not None:
             dom_3 = dom_3.replace('-', '')
             dom_4 = dom_4.replace('-', '')
             dom_5 = dom_5.replace('-', '')
-            st.write('#'+dom_1)
-            st.write('#'+dom_2)
-            st.write('#'+dom_3)
-            st.write('#'+dom_4)
-            st.write('#'+dom_5)
 
             col1, col2 ,col3, col4,col5= st.columns(5)
             with col1:
