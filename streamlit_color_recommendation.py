@@ -9,15 +9,18 @@ from scipy.cluster.vq import kmeans
 import pandas as pd
 import colorsys
 
+@st.cache
 def rgb_to_hex(rgb):
     #change rgb values to hex values
     return '%02x%02x%02x' % rgb
 
+@st.cache
 def hex_to_rgb(value):
     value = value.lstrip('#')
     lv = len(value)
     return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
+@st.cache
 def color_rec(colors):
   i = 0
   new = np.array([])
@@ -170,6 +173,25 @@ def color_change(image,original,updated_color):
 
     #blend new with original for lighting
     final=cv.addWeighted(picture,0.75,gray,0.25,50)
+
+
+    
+
+    ################
+    # def new_color_change(image, original, updated_color):
+    #     new_image = image.copy()
+    #     new_image[np.where((image != [0, 0, 0]).all(axis=2))] = updated_color
+    #     result = cv2.addWeighted(new_image, 0.5, image, 0.5, 0)
+    #
+    #     gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
+    #
+    #     arr = np.zeros((np.shape(original)))
+    #     print(np.shape(arr))
+    #     for row in range(np.shape(gray)[0]):
+    #         for col in range(np.shape(gray)[1]):
+    #             if gray[row][col] != 0:
+    #                 original[row][col][:] = result[row][col][:]
+    #     cv2.imshow('im', original)
 
     return final
 
@@ -349,7 +371,7 @@ if uploaded_img is not None:
                                      ('Simple Object Coloring', 'Advanced Custom Coloring'))
         if grabcut_selection == 'Simple Object Coloring':
             rectangle_mask= mask_rect(image, rect)
-            st.image(rectangle_mask, width=int(w))
+            st.image(rectangle_mask, channels='BGR', width=int(w))
             mask_1 = rectangle_mask
             canvas_result.json_data["objects"] = []
         # Custom Grabcut with interactive foreground extraction
@@ -358,7 +380,7 @@ if uploaded_img is not None:
             free_draw_mask = mask_free(image, rect)
             # Show the image after using grabcut free
             st.write("Object After Advanced Object Extraction")
-            st.image(free_draw_mask, width=int(w))
+            st.image(free_draw_mask,channels='BGR', width=int(w))
             mask_1 = free_draw_mask
             canvas_result.json_data["objects"] = []
 
@@ -381,11 +403,11 @@ if uploaded_img is not None:
             #output dominant colors in columns
             st.write('Here are the dominant colors from the rest of the image:')
             dom_color=color_id(background,5)
-            dom_1=rgb_to_hex(dom_color[0])
-            dom_2=rgb_to_hex(dom_color[1])
-            dom_3=rgb_to_hex(dom_color[2])
-            dom_4=rgb_to_hex(dom_color[3])
-            dom_5=rgb_to_hex(dom_color[4])
+            dom_1=str(rgb_to_hex(dom_color[0]))
+            dom_2=str(rgb_to_hex(dom_color[1]))
+            dom_3=str(rgb_to_hex(dom_color[2]))
+            dom_4=str(rgb_to_hex(dom_color[3]))
+            dom_5=str(rgb_to_hex(dom_color[4]))
             col1, col2 ,col3, col4,col5= st.columns(5)
             with col1:
                  color1 = st.color_picker('Color 1','#'+dom_1,key=1)
@@ -432,10 +454,10 @@ if uploaded_img is not None:
                 sug_colors=color_rec(new_colors)        
                 col1, col2= st.columns(2)
                 with col1:
-                    color1 = st.color_picker('Color 1','#'+sug_colors[0],key=10)
+                    color1 = st.color_picker('Color 1','#'+str(sug_colors[0]),key=10)
                     st.write(f"{color1}")
                 with col2:
-                    color2 = st.color_picker('Color 2','#'+sug_colors[1],key=11)
+                    color2 = st.color_picker('Color 2','#'+str(sug_colors[1]),key=11)
                     st.write(f"{color2}")
             #ask user to select the color to change
             st.write('Select the color you want to change the object to be:')
@@ -445,27 +467,26 @@ if uploaded_img is not None:
     
             if known_variables <1:
                 st.write('You have to select a color.')
+                check2=False
             elif known_variables == 1:
                 #store new color
                 st.write("Check the box below to change color")
-                if option_1:
+                if option_10:
                     new_color=f"{color1}"
-                    new_color=np.asarray(hex_to_rgb(new_color))
+                    new_color=hex_to_rgb(new_color)
                     new_color=np.append(new_color,'255')
                     new_color=tuple(new_color)                    
-                elif option_2:
+                elif option_11:
                     new_color=f"{color2}"
                     new_color=hex_to_rgb(new_color)
                     new_color=np.append(new_color,'255')
                     new_color=tuple(new_color)
             else:
                 st.write('Only select 1 color.')
+                check2=False
             
         check2=st.checkbox("Check this Box to change colors.")
         if check2:
-            if canvas_result.json_data["objects"]==[]:
-                st.write("Please choose an object in the image above")
-                check2=False
             
             #recolor image
             st.write("Image Recoloring...")
