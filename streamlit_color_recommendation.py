@@ -276,9 +276,9 @@ def background_only(image, original):
 
 
 # main
-st.title('Furniture Color Change App')
-
-uploaded_img = st.file_uploader("Choose an image...", type=['png', 'jpg', 'jpeg'])  # JPEG dont work yet :(
+st.title('Object Color Visualization and   Color Recommendation App')
+st.info("This application is intended to help DIYers visualize their project color before committing to painting.")
+uploaded_img = st.file_uploader("1. Upload an image of the object you would like to re-color", type=['png', 'jpg', 'jpeg'], help="It is recommended that the object is pictured in its final location, as this will yield the best results for 'Color Recommendation'")  # JPEG dont work yet :(
 
 if uploaded_img is not None:
     # change file into decoded image
@@ -291,7 +291,7 @@ if uploaded_img is not None:
     cv.imwrite("picture.png", image)
 
     #st.write("Choose the object that you would like to change...")
-    st.write("1. Draw a SINGLE rectangle around the object that you would like to re-color.")
+    st.write("2. Draw a SINGLE rectangle around the object that you would like to re-color.")
 
     # get dimensions and ratio of size, define size for canvas
     dimensions = image.shape
@@ -321,7 +321,7 @@ if uploaded_img is not None:
         drawing_mode="rect",
         key="canvas",
     )
-    step_counter = 3
+    step_counter = 4
     # define scale
     #scalex = dimensions[1] / w
     #scaley = dimensions[0] / h
@@ -338,7 +338,7 @@ if uploaded_img is not None:
                 width = rect_obj["width"]
                 height = rect_obj["height"]
                 rect = (int(left), int(top), int(width), int(height))
-                grabcut_selection = st.radio("2. What method of object re-coloring would you like to proceed with?",
+                grabcut_selection = st.radio("3. What method of object re-coloring would you like to proceed with?",
                                              ('Simple Object Extraction (Recommended)', 'Advanced Object Extraction'),
                                              help="If using 'Advanced Object Extraction', it may help to increase "
                                                   "the size of your rectangle")
