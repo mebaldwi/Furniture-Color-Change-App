@@ -484,11 +484,10 @@ if uploaded_img is not None:
                         # output recolored image
                         st.image(new_image, channels="RGB", width=int(w))
                         cv.imwrite("object_recolor_image.png", new_image)
-                        st.download_button("Download Image", "object_recolor_image.png", "Recolored_Object.png")
+                        #st.download_button("Download Image", "object_recolor_image.png", "Recolored_Object.png")
                         st.balloons()
+                        st.write("Right-click and select 'save' to save your image! Congrats!")
                         #check3=st.checkbox("Check this Box when complete.")
-                        #if check3:
-                            #st.balloons()
             
                 
 
