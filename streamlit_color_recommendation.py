@@ -301,7 +301,7 @@ if uploaded_img is not None:
         h = 600 / ratio
     else:
         h = 400
-        w = 400 / ratio
+        w = 400 * ratio
     
     dim=(int(w),int(h))
     image=cv.resize(image,dim,interpolation=cv.INTER_AREA)
